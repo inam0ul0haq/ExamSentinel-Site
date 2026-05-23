@@ -55,11 +55,10 @@
             </p>
 
             <div class="thesis-panel">
-                <h3>Core Research Thesis from D1 Evaluation</h3>
+                <h3>Core Idea</h3>
                 <p>
                     The main research gap is not simply "online cheating." It is the much narrower and more
-                    ignored gap of <strong>virtual machine detection inside exam-taking software</strong>. The D1
-                    evaluation argues that VM-based cheating is real, publicly discussed, and still treated as a
+                    ignored gap of <strong>virtual machine detection inside exam-taking software</strong>. VM-based cheating is real, publicly discussed, and still treated as a
                     minor checklist item while most recent academic work concentrates on AI-based proctoring.
                 </p>
                 <ul class="compact-list">
@@ -91,7 +90,7 @@
         <section id="research-gap">
             <h2>The Ignored VM Detection Gap</h2>
             <p>
-                The D1 evaluation frames ExamSentinel around a specific research gap: online exam security
+                ExamSentinel is framed around a specific research gap: online exam security
                 research has grown quickly after COVID, but the dominant lens is still webcam monitoring,
                 face recognition, gaze tracking, behavior classification, and other AI/ML approaches. Virtual
                 machines are discussed far less, even though they can move the whole exam environment into a
@@ -103,7 +102,7 @@
                     <span class="eyebrow">Finding 1</span>
                     <h3>Recent research looks mostly at AI</h3>
                     <p>
-                        D1 reviews recent proctoring literature from 2023-2026 and notes recurring focus areas:
+                        Recent proctoring literature from 2023-2026 and notes recurring focus areas:
                         machine learning, deep learning, face recognition, gaze tracking, screen activity, privacy,
                         false positives, datasets, and regulation.
                     </p>
@@ -121,7 +120,7 @@
                     <span class="eyebrow">Finding 3</span>
                     <h3>Cheaters actively exploit the gap</h3>
                     <p>
-                        D1 cites public bypass discussions, Safe Exam Browser concerns, and videos/blogs showing
+                        Public bypass discussions, Safe Exam Browser concerns, and videos/blogs showing
                         that students can spoof visible VM traits until an exam browser sees a "normal" machine.
                     </p>
                 </div>
@@ -131,7 +130,7 @@
                 <table class="research-table">
                     <thead>
                         <tr>
-                            <th>D1 Evidence Source</th>
+                            <th>Source</th>
                             <th>What It Focuses On</th>
                             <th>Why It Supports ExamSentinel</th>
                         </tr>
@@ -162,7 +161,7 @@
             </div>
 
             <p class="note">
-                <strong>D1 takeaway:</strong> ExamSentinel's main contribution is not just using machine learning
+                ExamSentinel's main contribution is not just using machine learning
                 because proctoring research already has a heavy AI/ML pipeline. The contribution is pushing VM
                 detection past spoofable surface checks into signals that are much harder to fake from inside the
                 guest operating system.
@@ -272,7 +271,7 @@
         <section id="bypass-evidence">
             <h2>Why Normal VM Detection Is Not Enough</h2>
             <p>
-                The D1 evaluation emphasizes that basic VM detection is already being targeted by students and
+                Basic VM detection is already being targeted by students and
                 bypass communities. The dangerous part is that the bypass does not need to break the exam browser;
                 it only needs to make the guest machine look ordinary enough that the browser trusts it.
             </p>
@@ -280,7 +279,7 @@
             <div class="split-grid">
                 <div class="method warning">
                     <h3>Spoofable Signals</h3>
-                    <p>These are useful first-pass checks, but D1 treats them as insufficient on their own:</p>
+                    <p>These are useful first-pass checks, but they are insufficient on their own:</p>
                     <ul>
                         <li>MAC address vendor prefixes</li>
                         <li>Registry keys under VirtualBox/VMware paths</li>
@@ -294,7 +293,7 @@
                 <div class="method warning">
                     <h3>Public Bypass Trail</h3>
                     <p>
-                        D1 references a closed Safe Exam Browser issue about VM detection bypasses, public videos
+                        A Safe Exam Browser issue about VM detection bypasses, public videos
                         demonstrating spoofed VM characteristics, and an APNIC article by a University of Auckland
                         professor explaining how networking technology can enable online exam cheating.
                     </p>
@@ -387,7 +386,7 @@
                 <div class="method critical">
                     <h3>Research Extension: Deep Hardware Artefact Scanning</h3>
                     <p>
-                        D1 extends the stealth idea beyond surface identifiers by checking deeper hardware fields such
+                        i extend the stealth idea beyond surface identifiers by checking deeper hardware fields such
                         as SMBIOS serial values, cache descriptors, and other low-level artefacts. Real machines from
                         vendors like Dell, HP, and Lenovo usually populate these fields consistently.
                     </p>
@@ -468,9 +467,6 @@
             <h2>Download</h2>
             <p>Download the ExamSentinel client application for Windows:</p>
             <a href="ExamSentinel.exe" class="download-btn" download>Download ExamSentinel.exe</a>
-            <p class="evaluation-download">The supporting research-gap note is also available:</p>
-            <a href="D1-evaluation.pdf" class="secondary-btn" download>Download D1 Evaluation PDF</a>
-            <div class="requirements">
                 <h3>System Requirements</h3>
                 <ul>
                     <li>Windows 10 or Windows 11 (64-bit)</li>
