@@ -1,0 +1,273 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.7;
+    color: #1a1a2e;
+    background: #f8f9fa;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Header */
+header {
+    background: #0a0e1a;
+    color: #e8ecf4;
+    padding: 48px 0;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+header .tagline {
+    font-size: 1.05rem;
+    color: #8892b0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Navigation */
+nav {
+    background: #16213e;
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+nav a {
+    color: #8892b0;
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+}
+
+nav a:hover {
+    color: #e8ecf4;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* Main content */
+main {
+    padding: 40px 0 60px;
+}
+
+section {
+    margin-bottom: 56px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+section:last-child {
+    border-bottom: none;
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #0a0e1a;
+}
+
+h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #16213e;
+}
+
+p {
+    margin-bottom: 12px;
+    color: #333;
+}
+
+ul, ol {
+    margin: 12px 0 16px 24px;
+}
+
+li {
+    margin-bottom: 6px;
+    color: #444;
+}
+
+/* Feature grid */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.feature-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.feature-card h3 {
+    color: #0a0e1a;
+    margin-bottom: 8px;
+}
+
+.feature-card p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 0;
+}
+
+/* Detection methods */
+.detection-methods {
+    margin-top: 20px;
+}
+
+.method {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.method.critical {
+    border-left: 4px solid #c0392b;
+}
+
+.method h3 {
+    margin-bottom: 10px;
+}
+
+.method p {
+    font-size: 0.92rem;
+    color: #444;
+}
+
+.method ul {
+    margin: 8px 0 0 20px;
+}
+
+.method ul li {
+    font-size: 0.88rem;
+    font-family: "SF Mono", "Fira Code", monospace;
+    color: #555;
+}
+
+.note {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+/* Architecture */
+.arch-details {
+    margin-top: 16px;
+}
+
+.arch-details ol {
+    margin-left: 24px;
+}
+
+.arch-details ol li {
+    margin-bottom: 6px;
+    font-size: 0.92rem;
+}
+
+/* Download */
+#download {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.download-btn {
+    display: inline-block;
+    background: #0a0e1a;
+    color: #e8ecf4;
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 14px 36px;
+    border-radius: 6px;
+    margin: 20px 0;
+    transition: background 0.2s;
+}
+
+.download-btn:hover {
+    background: #16213e;
+}
+
+.requirements {
+    text-align: left;
+    max-width: 400px;
+    margin: 24px auto 0;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.requirements h3 {
+    margin-bottom: 10px;
+}
+
+.requirements li {
+    font-size: 0.9rem;
+}
+
+/* Footer */
+footer {
+    background: #0a0e1a;
+    color: #8892b0;
+    text-align: center;
+    padding: 24px 0;
+    font-size: 0.85rem;
+}
+
+footer p {
+    color: #8892b0;
+    margin-bottom: 4px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    nav .container {
+        gap: 4px;
+    }
+
+    nav a {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+}

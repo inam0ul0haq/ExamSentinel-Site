@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamSentinel - Secure Online Examination System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>ExamSentinel</h1>
+            <p class="tagline">A Secure Online Examination System with OS-Level Lockdown and VM Detection</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <a href="#problem">Problem Statement</a>
+            <a href="#solution">Solution</a>
+            <a href="#lockdown">OS Lockdown</a>
+            <a href="#standard-vm">Standard VM Detection</a>
+            <a href="#stealth-vm">Stealth VM Detection</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#download">Download</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- Problem Statement -->
+        <section id="problem">
+            <h2>Problem Statement</h2>
+            <p>
+                Online examinations have become widespread, but existing platforms lack robust mechanisms
+                to prevent cheating at the operating system level. Students can easily bypass browser-based
+                proctoring by:
+            </p>
+            <ul>
+                <li>Alt-tabbing to search for answers in other applications</li>
+                <li>Using screen-sharing or remote desktop tools to get external help</li>
+                <li>Running the exam inside a Virtual Machine to bypass all monitoring</li>
+                <li>Using clipboard to copy-paste from external sources</li>
+                <li>Opening multiple monitors to view reference material</li>
+                <li>Using screen recording software to capture and share questions</li>
+            </ul>
+            <p>
+                Browser-based solutions are fundamentally limited because they cannot control what happens
+                outside the browser window. A determined student can always minimize, switch applications,
+                or run the browser inside a VM where all monitoring is rendered useless.
+            </p>
+        </section>
+
+        <!-- Solution -->
+        <section id="solution">
+            <h2>Our Solution</h2>
+            <p>
+                ExamSentinel is a native Windows desktop application that enforces exam integrity at the
+                operating system level. Unlike browser-based proctoring tools, ExamSentinel operates with
+                administrator privileges and directly controls the Windows environment during an exam session.
+            </p>
+            <p>The system consists of:</p>
+            <ul>
+                <li><strong>Desktop Client (Windows .exe)</strong> — Native Tkinter application with OS-level lockdown capabilities, built with Python and distributed as a standalone executable.</li>
+                <li><strong>Backend Server (Flask REST API)</strong> — Handles authentication, exam management, session tracking, incident logging, and real-time monitoring. Deployed on Railway with PostgreSQL.</li>
+                <li><strong>Teacher Dashboard</strong> — Allows teachers to create courses, author MCQ exams, activate exams, view student sessions, and review incident logs in real-time.</li>
+                <li><strong>Student Interface</strong> — Pre-exam integrity checks (VM detection), exam taking under lockdown, and automatic incident reporting.</li>
+            </ul>
+        </section>
+
+        <!-- OS Lockdown -->
+        <section id="lockdown">
+            <h2>OS Lockdown System</h2>
+            <p>
+                When a student begins an exam, ExamSentinel activates a multi-layered lockdown system
+                that restricts the operating system environment. All violations are logged with timestamps
+                and sent to the server for teacher review.
+            </p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Fullscreen Enforcement</h3>
+                    <p>Forces the exam window to remain in fullscreen mode. Any attempt to minimize, resize, or move the window is immediately detected and reversed. Logged as FULLSCREEN_BREACH.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Focus Monitoring</h3>
+                    <p>Continuously monitors which window has focus. If the student clicks or switches to any other application, the event is logged with the target window's title. Logged as FOCUS_LOST.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Keyboard Blocking</h3>
+                    <p>Installs a low-level keyboard hook that intercepts and blocks dangerous key combinations: Win key, Alt+Tab, Alt+F4, Ctrl+Alt+Del, PrintScreen, and all snipping tool shortcuts. Logged as KEYBOARD_BLOCKED.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Mouse Boundary</h3>
+                    <p>Tracks cursor position and detects if the mouse moves outside the exam window boundaries (e.g., to a taskbar or second screen edge). Logged as MOUSE_ESCAPE.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Clipboard Scrubbing</h3>
+                    <p>Periodically monitors the system clipboard. If any content is detected (text, images, files), it is immediately wiped and the event is logged with the format type. Logged as CLIPBOARD_SCRUB.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Process Killing</h3>
+                    <p>Scans running processes against a blacklist of screen recorders, remote desktop tools, and cheating software (OBS, TeamViewer, AnyDesk, Discord screen share, etc.). Detected processes are force-terminated. Logged as BLACKLISTED_PROCESS_KILLED.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Right-Click Suppression</h3>
+                    <p>Blocks right-click context menus within the exam window to prevent copy-paste and inspect-element style actions. Logged as RIGHT_CLICK_BLOCKED.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Multi-Monitor Detection</h3>
+                    <p>Detects if multiple monitors are connected. If a second display is found during the exam, the session is immediately aborted. Logged as MULTI_MONITOR_DETECTED (critical).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Standard VM Detection -->
+        <section id="standard-vm">
+            <h2>Standard VM Detection</h2>
+            <p>
+                Before the exam begins, ExamSentinel runs a pre-exam integrity check that scans for
+                obvious virtualization indicators. This catches students running default or lightly
+                configured virtual machines (VirtualBox, VMware, Hyper-V, QEMU, Parallels).
+            </p>
+
+            <div class="detection-methods">
+                <div class="method">
+                    <h3>1. Process Scanning</h3>
+                    <p>Checks running processes against known VM guest tool process names:</p>
+                    <ul>
+                        <li>VirtualBox: VBoxService.exe, VBoxTray.exe, VBoxClient.exe</li>
+                        <li>VMware: vmtoolsd.exe, vmwaretray.exe, vmwareuser.exe</li>
+                        <li>Hyper-V: vmcompute.exe, vmms.exe</li>
+                        <li>QEMU: qemu-ga.exe</li>
+                    </ul>
+                </div>
+                <div class="method">
+                    <h3>2. Registry Key Detection</h3>
+                    <p>Scans Windows registry for VM-specific keys:</p>
+                    <ul>
+                        <li>SOFTWARE\Oracle\VirtualBox Guest Additions</li>
+                        <li>SOFTWARE\VMware, Inc.\VMware Tools</li>
+                        <li>SYSTEM\ControlSet001\Services\VBoxGuest</li>
+                        <li>SYSTEM\ControlSet001\Services\VBoxMouse</li>
+                        <li>SYSTEM\ControlSet001\Services\VBoxVideo</li>
+                    </ul>
+                </div>
+                <div class="method">
+                    <h3>3. WMI Hardware Strings</h3>
+                    <p>Queries Win32_ComputerSystem and Win32_BIOS via WMI for manufacturer/model strings containing "virtualbox", "vmware", "innotek", "qemu", etc.</p>
+                </div>
+                <div class="method">
+                    <h3>4. MAC Address OUI</h3>
+                    <p>Checks network adapter MAC address prefixes (OUI) against known VM vendor ranges:</p>
+                    <ul>
+                        <li>08:00:27, 0A:00:27 — VirtualBox</li>
+                        <li>00:0C:29, 00:50:56 — VMware</li>
+                        <li>00:15:5D — Hyper-V</li>
+                        <li>52:54:00 — QEMU</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="note">
+                <strong>Limitation:</strong> All four methods above can be bypassed by a technically skilled student
+                who removes guest additions, spoofs registry keys, changes MAC addresses, and modifies WMI strings.
+                This is where Stealth VM Detection becomes essential.
+            </p>
+        </section>
+
+        <!-- Stealth VM Detection -->
+        <section id="stealth-vm">
+            <h2>Stealth VM Detection</h2>
+            <p>
+                Even when a student removes all guest tools, spoofs BIOS strings, and changes MAC addresses,
+                ExamSentinel can still detect the virtual machine using hardware-level signals that
+                <strong>cannot be faked from user-mode</strong>. These three methods exploit fundamental
+                properties of how CPU virtualization works.
+            </p>
+
+            <div class="detection-methods">
+                <div class="method critical">
+                    <h3>1. RDTSC Timing (CPU Trap Latency)</h3>
+                    <p>
+                        This is the most reliable detection method. It measures the CPU cycle cost of executing
+                        a CPUID instruction using the RDTSC (Read Time-Stamp Counter) instruction.
+                    </p>
+                    <p>
+                        On bare metal, CPUID executes in 50-150 CPU cycles. On a hypervisor, the CPUID
+                        instruction causes a mandatory VM-exit trap to the hypervisor, which adds 3,000-50,000+
+                        cycles of overhead. This is a fundamental architectural property of x86 virtualization
+                        that no VBoxManage command or registry tweak can eliminate.
+                    </p>
+                    <p>
+                        ExamSentinel injects x86-64 shellcode into executable memory, runs 200 iterations,
+                        takes the median, and compares against a threshold of 2,500 cycles.
+                    </p>
+                </div>
+                <div class="method critical">
+                    <h3>2. Thermal Zone Absence</h3>
+                    <p>
+                        Every real PC has at least one thermal sensor exposed through the WMI
+                        MSAcpi_ThermalZoneTemperature class. These sensors report CPU/motherboard temperature
+                        readings that fluctuate naturally with load.
+                    </p>
+                    <p>
+                        Virtual machines have no physical hardware, so they either report zero thermal zones
+                        or return a constant stub value (exactly 26.85C / 300K). ExamSentinel queries this
+                        WMI namespace and flags the VM if no zones exist or if readings are suspiciously constant.
+                    </p>
+                </div>
+                <div class="method critical">
+                    <h3>3. SCSI Disk Identifier</h3>
+                    <p>
+                        Virtual disk controllers report identifiers like "VBOX HARDDISK" or "VMware Virtual disk"
+                        in the Windows registry under HARDWARE\DEVICEMAP\Scsi. These identifiers come from the
+                        virtual storage controller firmware, not from installed tools.
+                    </p>
+                    <p>
+                        Removing Guest Additions, spoofing BIOS strings, or changing MAC addresses does NOT affect
+                        the SCSI disk identifier. It can only be changed by modifying the hypervisor source code itself.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture -->
+        <section id="architecture">
+            <h2>System Architecture</h2>
+            <div class="arch-details">
+                <div class="method">
+                    <h3>Technology Stack</h3>
+                    <ul>
+                        <li><strong>Client:</strong> Python, Tkinter, ctypes, psutil, pyinstaller (Windows .exe)</li>
+                        <li><strong>Server:</strong> Flask, SQLAlchemy, PostgreSQL, Flask-JWT-Extended</li>
+                        <li><strong>Deployment:</strong> Railway (server + database), standalone .exe (client)</li>
+                    </ul>
+                </div>
+                <div class="method">
+                    <h3>Exam Flow</h3>
+                    <ol>
+                        <li>Teacher creates course, adds students, authors exam with MCQs</li>
+                        <li>Teacher activates exam when ready</li>
+                        <li>Student launches ExamSentinel, logs in, sees available exams</li>
+                        <li>Student starts exam — pre-exam integrity check runs (VM detection)</li>
+                        <li>If passed, session transitions to in_progress, lockdown engages</li>
+                        <li>Student answers questions under full OS lockdown</li>
+                        <li>All violations logged in real-time to server</li>
+                        <li>Student submits — lockdown disengages, results shown</li>
+                        <li>Teacher reviews sessions, scores, and incident timeline</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download -->
+        <section id="download">
+            <h2>Download</h2>
+            <p>Download the ExamSentinel client application for Windows:</p>
+            <a href="ExamSentinel.exe" class="download-btn" download>Download ExamSentinel.exe</a>
+            <div class="requirements">
+                <h3>System Requirements</h3>
+                <ul>
+                    <li>Windows 10 or Windows 11 (64-bit)</li>
+                    <li>Administrator privileges (required for lockdown)</li>
+                    <li>Internet connection (connects to backend server)</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>ExamSentinel — Final Year Project, PUCIT, University of the Punjab</p>
+            <p>Developed by Inam Ul Haq (BITF22M017)</p>
+        </div>
+    </footer>
+</body>
+</html>
