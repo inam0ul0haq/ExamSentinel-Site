@@ -11,6 +11,7 @@
         <div class="container">
             <h1>ExamSentinel</h1>
             <p class="tagline">A Secure Online Examination System with OS-Level Lockdown and VM Detection</p>
+            <p class="research-note">Research focus: treating virtual machines as a first-class cheating channel, not a side checkbox.</p>
         </div>
     </header>
 
@@ -18,9 +19,12 @@
         <div class="container">
             <a href="#problem">Problem Statement</a>
             <a href="#solution">Solution</a>
+            <a href="#research-gap">Research Gap</a>
             <a href="#lockdown">OS Lockdown</a>
             <a href="#standard-vm">Standard VM Detection</a>
+            <a href="#bypass-evidence">Bypass Evidence</a>
             <a href="#stealth-vm">Stealth VM Detection</a>
+            <a href="#future-work">Future Work</a>
             <a href="#architecture">Architecture</a>
             <a href="#download">Download</a>
         </div>
@@ -49,6 +53,21 @@
                 outside the browser window. A determined student can always minimize, switch applications,
                 or run the browser inside a VM where all monitoring is rendered useless.
             </p>
+
+            <div class="thesis-panel">
+                <h3>Core Research Thesis from D1 Evaluation</h3>
+                <p>
+                    The main research gap is not simply "online cheating." It is the much narrower and more
+                    ignored gap of <strong>virtual machine detection inside exam-taking software</strong>. The D1
+                    evaluation argues that VM-based cheating is real, publicly discussed, and still treated as a
+                    minor checklist item while most recent academic work concentrates on AI-based proctoring.
+                </p>
+                <ul class="compact-list">
+                    <li>VMs let a student hide the real host operating system from the exam client.</li>
+                    <li>Normal VM indicators can be spoofed until the VM looks like a physical PC.</li>
+                    <li>Stealth VM detection is therefore the central technical contribution of ExamSentinel.</li>
+                </ul>
+            </div>
         </section>
 
         <!-- Solution -->
@@ -66,6 +85,88 @@
                 <li><strong>Teacher Dashboard</strong> — Allows teachers to create courses, author MCQ exams, activate exams, view student sessions, and review incident logs in real-time.</li>
                 <li><strong>Student Interface</strong> — Pre-exam integrity checks (VM detection), exam taking under lockdown, and automatic incident reporting.</li>
             </ul>
+        </section>
+
+        <!-- Research Gap -->
+        <section id="research-gap">
+            <h2>The Ignored VM Detection Gap</h2>
+            <p>
+                The D1 evaluation frames ExamSentinel around a specific research gap: online exam security
+                research has grown quickly after COVID, but the dominant lens is still webcam monitoring,
+                face recognition, gaze tracking, behavior classification, and other AI/ML approaches. Virtual
+                machines are discussed far less, even though they can move the whole exam environment into a
+                controlled sandbox that the proctoring software cannot truly see beyond.
+            </p>
+
+            <div class="evidence-grid">
+                <div class="evidence-card">
+                    <span class="eyebrow">Finding 1</span>
+                    <h3>Recent research looks mostly at AI</h3>
+                    <p>
+                        D1 reviews recent proctoring literature from 2023-2026 and notes recurring focus areas:
+                        machine learning, deep learning, face recognition, gaze tracking, screen activity, privacy,
+                        false positives, datasets, and regulation.
+                    </p>
+                </div>
+                <div class="evidence-card">
+                    <span class="eyebrow">Finding 2</span>
+                    <h3>VM detection is usually a checkbox</h3>
+                    <p>
+                        Enterprise exam clients may include VM checks, but those checks often stop at visible
+                        identifiers such as MAC prefixes, registry keys, driver names, guest tools, BIOS strings,
+                        and virtual disk names.
+                    </p>
+                </div>
+                <div class="evidence-card">
+                    <span class="eyebrow">Finding 3</span>
+                    <h3>Cheaters actively exploit the gap</h3>
+                    <p>
+                        D1 cites public bypass discussions, Safe Exam Browser concerns, and videos/blogs showing
+                        that students can spoof visible VM traits until an exam browser sees a "normal" machine.
+                    </p>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="research-table">
+                    <thead>
+                        <tr>
+                            <th>D1 Evidence Source</th>
+                            <th>What It Focuses On</th>
+                            <th>Why It Supports ExamSentinel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="https://link.springer.com/article/10.1007/s44217-026-01224-3" target="_blank" rel="noopener">Springer Discover Education systematic review, 2026</a></td>
+                            <td>Automated proctoring research across 80 papers from 2014-2024, with attention to ML/DL, privacy, regulation, false positives, and datasets.</td>
+                            <td>Shows that even broad recent reviews are centered on AI proctoring concerns, not stealth VM detection.</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://www.researchgate.net/publication/396041680_Online_Exam_Proctoring_A_Comprehensive_Review_and_Critical_Analysis" target="_blank" rel="noopener">Online Exam Proctoring review, 2025</a></td>
+                            <td>Face recognition, gaze tracking, impersonation, and ethical concerns.</td>
+                            <td>Highlights how the mainstream discussion stays near camera-based proctoring instead of OS and virtualization attacks.</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://www.sciencedirect.com/org/science/article/pii/S0951354X23002594" target="_blank" rel="noopener">Digital proctoring systematic review, 2023</a></td>
+                            <td>Webcam, microphone, and screen activity monitoring, with the conclusion that digital proctoring is imperfect.</td>
+                            <td>Supports the need for deeper client-side integrity controls beyond browser-visible behavior.</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://openpraxis.org/articles/10.55982/openpraxis.17.3.836" target="_blank" rel="noopener">Open Praxis systematic-narrative review, 2025</a></td>
+                            <td>Online proctoring systems and the case for open standards.</td>
+                            <td>Reinforces that VM security remains underdeveloped as a dedicated research angle.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="note">
+                <strong>D1 takeaway:</strong> ExamSentinel's main contribution is not just using machine learning
+                because proctoring research already has a heavy AI/ML pipeline. The contribution is pushing VM
+                detection past spoofable surface checks into signals that are much harder to fake from inside the
+                guest operating system.
+            </p>
         </section>
 
         <!-- OS Lockdown -->
@@ -167,6 +268,51 @@
             </p>
         </section>
 
+        <!-- Bypass Evidence -->
+        <section id="bypass-evidence">
+            <h2>Why Normal VM Detection Is Not Enough</h2>
+            <p>
+                The D1 evaluation emphasizes that basic VM detection is already being targeted by students and
+                bypass communities. The dangerous part is that the bypass does not need to break the exam browser;
+                it only needs to make the guest machine look ordinary enough that the browser trusts it.
+            </p>
+
+            <div class="split-grid">
+                <div class="method warning">
+                    <h3>Spoofable Signals</h3>
+                    <p>These are useful first-pass checks, but D1 treats them as insufficient on their own:</p>
+                    <ul>
+                        <li>MAC address vendor prefixes</li>
+                        <li>Registry keys under VirtualBox/VMware paths</li>
+                        <li>Guest helper process names</li>
+                        <li>VM-specific driver names</li>
+                        <li>BIOS and motherboard identifiers</li>
+                        <li>Disk or hard-drive model names</li>
+                        <li>CPU virtualization flag checks</li>
+                    </ul>
+                </div>
+                <div class="method warning">
+                    <h3>Public Bypass Trail</h3>
+                    <p>
+                        D1 references a closed Safe Exam Browser issue about VM detection bypasses, public videos
+                        demonstrating spoofed VM characteristics, and an APNIC article by a University of Auckland
+                        professor explaining how networking technology can enable online exam cheating.
+                    </p>
+                    <p class="source-links">
+                        <a href="https://github.com/SafeExamBrowser/seb-win-refactoring/issues/57" target="_blank" rel="noopener">Safe Exam Browser issue</a>
+                        <a href="https://blog.apnic.net/2025/01/14/how-networking-technology-enables-cheating-in-online-exams/" target="_blank" rel="noopener">APNIC cheating analysis</a>
+                    </p>
+                </div>
+            </div>
+
+            <p class="note">
+                <strong>Main point:</strong> Once a VM has a legitimate-looking MAC address, normal Windows names,
+                renamed drivers, and cleaned guest traces, a conventional exam client may treat it as bare metal.
+                ExamSentinel responds by looking for deeper signals that come from virtualization behavior itself,
+                not only from labels written inside Windows.
+            </p>
+        </section>
+
         <!-- Stealth VM Detection -->
         <section id="stealth-vm">
             <h2>Stealth VM Detection</h2>
@@ -176,6 +322,24 @@
                 <strong>cannot be faked from user-mode</strong>. These three methods exploit fundamental
                 properties of how CPU virtualization works.
             </p>
+
+            <div class="contribution-strip">
+                <div class="contribution-item">
+                    <span>01</span>
+                    <strong>Timing Behavior</strong>
+                    <p>Measure virtualization overhead and jitter around CPU instructions that hypervisors must mediate.</p>
+                </div>
+                <div class="contribution-item">
+                    <span>02</span>
+                    <strong>Physical Sensors</strong>
+                    <p>Check whether temperature readings behave like a real machine under load or stay flat like a VM stub.</p>
+                </div>
+                <div class="contribution-item">
+                    <span>03</span>
+                    <strong>Hardware Artefacts</strong>
+                    <p>Inspect low-level identifiers that real OEM machines populate but virtual hardware often leaves generic.</p>
+                </div>
+            </div>
 
             <div class="detection-methods">
                 <div class="method critical">
@@ -220,7 +384,54 @@
                         the SCSI disk identifier. It can only be changed by modifying the hypervisor source code itself.
                     </p>
                 </div>
+                <div class="method critical">
+                    <h3>Research Extension: Deep Hardware Artefact Scanning</h3>
+                    <p>
+                        D1 extends the stealth idea beyond surface identifiers by checking deeper hardware fields such
+                        as SMBIOS serial values, cache descriptors, and other low-level artefacts. Real machines from
+                        vendors like Dell, HP, and Lenovo usually populate these fields consistently.
+                    </p>
+                    <p>
+                        Virtual machines often leave these values blank, generic, zeroed, or set to defaults such as
+                        "To Be Filled By O.E.M." A single field is not enough for a verdict, but multiple weak artefacts
+                        together create a strong virtualization signal.
+                    </p>
+                </div>
             </div>
+
+            <p class="note">
+                <strong>Research contribution:</strong> ExamSentinel does not stop at "is VirtualBox installed?"
+                It treats VM detection as an adversarial problem where the student may already know the basic checklist
+                and may have deliberately spoofed it.
+            </p>
+        </section>
+
+        <!-- Future Work -->
+        <section id="future-work">
+            <h2>Future Work and Research Paper Direction</h2>
+            <p>
+                ExamSentinel is planned to be extended beyond a final year project into a formal research paper
+                focused on stealth virtual machine detection in exam-taking software. This future work will be
+                carried forward with <strong>Dr. Nadeem Akhtar</strong>, my project supervisor, who has agreed to
+                guide the research direction, evaluation design, and publication process.
+            </p>
+
+            <div class="future-panel">
+                <h3>Planned Research Expansion</h3>
+                <ul>
+                    <li>Build a stronger experimental dataset across bare-metal PCs and multiple VM platforms.</li>
+                    <li>Measure false positives and false negatives for standard VM checks versus stealth signals.</li>
+                    <li>Evaluate timing, thermal, SCSI, and hardware artefact checks under spoofing attempts.</li>
+                    <li>Compare ExamSentinel's VM detection approach with existing exam-taking and lockdown browsers.</li>
+                    <li>Formalize the threat model for VM-assisted cheating in online and remote examinations.</li>
+                </ul>
+            </div>
+
+            <p class="note">
+                <strong>Long-term goal:</strong> present this work as an academic contribution showing that VM
+                detection deserves dedicated research attention, especially because current proctoring research is
+                heavily centered on AI/ML behavior monitoring while virtualization-based cheating remains underexplored.
+            </p>
         </section>
 
         <!-- Architecture -->
@@ -257,6 +468,8 @@
             <h2>Download</h2>
             <p>Download the ExamSentinel client application for Windows:</p>
             <a href="ExamSentinel.exe" class="download-btn" download>Download ExamSentinel.exe</a>
+            <p class="evaluation-download">The supporting research-gap note is also available:</p>
+            <a href="D1-evaluation.pdf" class="secondary-btn" download>Download D1 Evaluation PDF</a>
             <div class="requirements">
                 <h3>System Requirements</h3>
                 <ul>
